@@ -17,7 +17,8 @@ void setup_pins(void) {
 	// RA2 is the trigger button output to the Atari
 	// RB6,7 are button 2,3 outputs to the Atari
 	//     NB: configured as inputs until controller is detected
-	// RA4,5 are unused
+	// RA5 selects C64 mode (active low)
+	// RA4 is unused
 
 	// Set latches high since output is active low
 	LATA = 0b11001111;
@@ -112,18 +113,20 @@ controller_t read_controller() {
 }
 
 void write_controller(const controller_t *controller) {
+	int8_t c64 = !RA5;
+
 	if (controller->A_IS_UP) {
 		LATA1 = controller->UP && controller->A;
-		LATB7 = 1;
+		LATB7 = !c64;
 	} else {
 		LATA1 = controller->UP;
-		LATB7 = controller->A;
+		LATB7 = controller->A ^ c64;
 	}
 	LATA0 = controller->DOWN;
 	LATA7 = controller->LEFT;
 	LATA6 = controller->RIGHT;
 	LATA2 = controller->B && controller->START;
-	LATB6 = controller->C;
+	LATB6 = controller->C ^ c64;
 }
 
 int main(void) {
