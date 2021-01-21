@@ -1,12 +1,12 @@
-# Sega Megadrive controller to Atari 8-bit adapter
+# Sega Mega Drive controller to Atari 8-bit adapter
 
-Adapt a Sega Megadrive (Genesis) controller to the 9-pin Atari joystick
+Adapt a Sega Mega Drive (Genesis) controller to the 9-pin Atari joystick
 standard using a Microchip PIC 16F1847 microcontroller.
 
 
 ## Features
 
-The B button on the Megadrive controller is converted to the normal
+The B button on the Mega Drive controller is converted to the normal
 joystick button.  Buttons A and C are connected to pins 5 and 9,
 respectively; these can be read as second and third joystick buttons by
 the computer.
@@ -22,8 +22,8 @@ Start again switches the mapping back.
 ### Autodetection
 
 The adapter does not map the second and third joystick buttons unless a
-Megadrive controller is detected.  This allows the computer to detect the
-presence of a multibutton controller.
+Mega Drive controller is detected.  This allows the computer to detect
+the presence of a multibutton controller.
 
 
 ## Compatibility
@@ -34,7 +34,7 @@ standard can be played using this adapter.
 
 ### Sega controllers
 
-The program is theoretically compatible with a six-button Megadrive
+The program is theoretically compatible with a six-button Mega Drive
 controller, but this has not been tested.  The extra X, Y, Z, and Mode
 buttons are not mapped to anything even if a six-button controller is
 used.
@@ -78,3 +78,6 @@ TODO
                      |                   |
                      +-------------------+
 ```
+
+Information on reading Sega controllers came from
+https://github.com/jonthysell/SegaController/wiki/How-To-Read-Sega-Controllers

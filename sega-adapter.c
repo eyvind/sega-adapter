@@ -103,7 +103,7 @@ controller_t read_controller() {
 			// three-button controller removed
 			WPUB6 = TRISB6 = WPUB7 = TRISB7 = 1;
 		} else if (TRISB6 && !controller.C) {
-			// Non-Megadrive two-button joystick
+			// Non-Mega Drive two-button joystick
 			TRISB6 = 0;
 		}
 	}
