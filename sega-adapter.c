@@ -99,29 +99,32 @@ controller_t read_controller() {
 void write_controller(const controller_t controller) {
 	int8_t c64 = !RA5;
 	int8_t button_3;
+	TRISAbits_t trisa = TRISAbits;
 
 	if (controller.A_IS_UP) {
-		TRISA1 = controller.UP && controller.A;
+		trisa.TRISA1 = controller.UP && controller.A;
 		button_3 = 1;
 	} else {
-		TRISA1 = controller.UP;
+		trisa.TRISA1 = controller.UP;
 		button_3 = controller.A;
 	}
-	TRISA0 = controller.DOWN;
-	TRISA7 = controller.LEFT;
-	TRISA6 = controller.RIGHT;
-	TRISA3 = controller.B && controller.START;
+	trisa.TRISA0 = controller.DOWN;
+	trisa.TRISA7 = controller.LEFT;
+	trisa.TRISA6 = controller.RIGHT;
+	trisa.TRISA3 = controller.B && controller.START;
 
 	if (c64) {
-		TRISA4 = controller.C;
-		TRISA2 = button_3;
+		trisa.TRISA4 = controller.C;
+		trisa.TRISA2 = button_3;
 
 	} else {
 		// In Atari mode, buttons are low both when active and
 		// when not connected.
-		TRISA4 = !(controller.TWO_BUTTON && controller.C);
-		TRISA2 = !(controller.THREE_BUTTON && button_3);
+		trisa.TRISA4 = !(controller.TWO_BUTTON && controller.C);
+		trisa.TRISA2 = !(controller.THREE_BUTTON && button_3);
 	}
+
+	TRISAbits = trisa;
 }
 
 int main(void) {
