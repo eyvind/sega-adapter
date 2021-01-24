@@ -19,6 +19,9 @@
 #pragma config BORV = LO	// Brown-out Reset Voltage Selection
 #pragma config LVP = OFF	// Low-Voltage Programming Enable
 
+const uint8_t BUTTON_MASK=0b00010100;
+const uint8_t SELECT_MASK=0b01000000;
+
 typedef struct {
 	uint8_t START_COUNTER;
 

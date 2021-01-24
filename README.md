@@ -32,7 +32,7 @@ detect the presence of a multibutton controller.
 Games following the [Joy2B+](https://github.com/ascrnet/Joy2Bplus)
 standard can be played using this adapter.
 
-### Commodore computers
+### Commodore computers (experimental)
 
 The C64, C128, and VIC-20 can also read the second and third buttons.
 Games on those machines expect the signals to be active high, which is
@@ -70,23 +70,23 @@ TODO
                       PIC 16F1847
                      +---------_---------+
                      |                   |
-            Atari 6 -|  1  RA2   RA1  18 |- Atari 1
+            Atari 5 -|  1  RA2   RA1  18 |- Atari 1
                      |                   |
-             SEGA 7 -|  2  RA3   RA0  17 |- Atari 2
+            Atari 6 -|  2  RA3   RA0  17 |- Atari 2
                      |                   |
-                  X -|  3  RA4   RA7  16 |- Atari 3
+            Atari 9 -|  3  RA4   RA7  16 |- Atari 3
                 ___  |                   |
                 C64 -|  4  RA5   RA6  15 |- Atari 4
                      |                   |
     Atari 8  SEGA 8 -|  5  GND   +5v  14 |- Atari 7  SEGA 5
                      |                   |
-             SEGA 1 -|  6  RB0   RB7  13 |- Atari 5
+             SEGA 1 -|  6  RB0   RB7  13 |- SEGA 6
                      |                   |
-             SEGA 2 -|  7  RB1   RB6  12 |- Atari 9
+             SEGA 2 -|  7  RB1   RB6  12 |- SEGA 7
                      |                   |
              SEGA 3 -|  8  RB2   RB5  11 |- SEGA 9
                      |                   |
-             SEGA 4 -|  9  RB3   RB4  10 |- SEGA 6
+             SEGA 4 -|  9  RB3   RB4  10 |- X
                      |                   |
                      +-------------------+
 ```

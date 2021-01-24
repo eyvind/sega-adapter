@@ -10,28 +10,25 @@ void setup_pins(void) {
 	// Enable weak pull-ups
 	OPTION_REG = 0b01111111;
 
+	// PORTA is connected to the Atari, PORTB to the controller
 	// RA1,0,7,6 are up,down,left,right outputs to the Atari
 	// RB0,1,2,3 are up,down,left,right inputs from the controller
-	// RA3 is the select line output to the controller
-	// RB4,5 are button inputs from the controller
-	// RA2 is the trigger button output to the Atari
-	// RB6,7 are button 2,3 outputs to the Atari
-	//     NB: configured as inputs until controller is detected
-	// RA5 selects C64 mode (active low)
-	// RA4 is unused
+	// RB6 is the select line output to the controller
+	// RB7,5 are button inputs from the controller
+	// RA3 is the trigger button output to the Atari
+	// RA4,2 are button 2,3 outputs to the Atari
+	// /RA5 selects C64 mode
+	// RB4 is unused
 
-	// Set latches high since output is active low
-	LATA = 0b11001111;
-	LATB = 0;
+	LATA = BUTTON_MASK;
+	LATB = SELECT_MASK;
 
-	TRISA = 0b00110000;
-	// TRISB6,7 are low-impedance inputs until a controller is
-	// detected
-	TRISB = 0b11111111;
+	TRISA = 0b11111111;
+	TRISB = ~SELECT_MASK;
 
-	// set PORTA4 as analog to save power
-	ANSELA = 0b00010000;
-	ANSELB = 0;
+	ANSELA = 0;
+	// set PORTB4 as analog to save power
+	ANSELB = 0b00010000;
 }
 
 controller_t read_controller() {
@@ -44,7 +41,7 @@ controller_t read_controller() {
 	int8_t six_button_next = 0;
 
 	for (int8_t state = 0; state < 8; state++) {
-		LATA3 = state % 2;
+		LATB6 = state % 2;
 
 		switch (state % 2) {
 			case 0:
@@ -56,7 +53,7 @@ controller_t read_controller() {
 
 				if (!RB2 && !RB3) {
 					controller.THREE_BUTTON = 1;
-					controller.A = RB4;
+					controller.A = RB7;
 					controller.START = RB5;
 				}
 				break;
@@ -73,7 +70,7 @@ controller_t read_controller() {
 					controller.DOWN = RB1;
 					controller.LEFT = RB2;
 					controller.RIGHT = RB3;
-					controller.B = RB4;
+					controller.B = RB7;
 					controller.C = RB5;
 				}
 				break;
@@ -93,40 +90,45 @@ controller_t read_controller() {
 		controller.START_COUNTER = 0;
 	}
 
-	if (controller.THREE_BUTTON) {
-		if (TRISB7) {
-			// three-button controller inserted
-			TRISB6 = TRISB7 = 0;
-		}
-
-	} else {
-		if (!TRISB7) {
-			// three-button controller removed
-			WPUB6 = TRISB6 = WPUB7 = TRISB7 = 1;
-		} else if (TRISB6 && !controller.C) {
-			// Non-Mega Drive two-button joystick
-			TRISB6 = 0;
-		}
-	}
-
 	return controller;
 }
 
-void write_controller(const controller_t *controller) {
+void write_controller(const controller_t controller) {
 	int8_t c64 = !RA5;
+	int8_t button_3;
 
-	if (controller->A_IS_UP) {
-		LATA1 = controller->UP && controller->A;
-		LATB7 = !c64;
+	if (controller.A_IS_UP) {
+		TRISA1 = controller.UP && controller.A;
+		button_3 = 1;
 	} else {
-		LATA1 = controller->UP;
-		LATB7 = controller->A ^ c64;
+		TRISA1 = controller.UP;
+		button_3 = controller.A;
 	}
-	LATA0 = controller->DOWN;
-	LATA7 = controller->LEFT;
-	LATA6 = controller->RIGHT;
-	LATA2 = controller->B && controller->START;
-	LATB6 = controller->C ^ c64;
+	TRISA0 = controller.DOWN;
+	TRISA7 = controller.LEFT;
+	TRISA6 = controller.RIGHT;
+	TRISA3 = controller.B && controller.START;
+
+	if (c64) {
+		LATA |= BUTTON_MASK;
+		TRISA4 = controller.C;
+		TRISA2 = button_3;
+	} else {
+		LATA4 = controller.C;
+		LATA2 = button_3;
+		if (controller.THREE_BUTTON) {
+			TRISA &= ~BUTTON_MASK;
+
+		} else {
+			if (!TRISA2) {
+				// three-button controller removed
+				TRISA |= BUTTON_MASK;
+			} else if (TRISA4 && !controller.C) {
+				// Non-Mega Drive two-button controller
+				TRISA4 = 0;
+			}
+		}
+	}
 }
 
 int main(void) {
@@ -135,7 +137,7 @@ int main(void) {
 	setup_pins();
 	while (1) {
 		controller = read_controller();
-		write_controller(&controller);
+		write_controller(controller);
 		__delay_ms(2);
 		CLRWDT();
 	}
