@@ -32,14 +32,10 @@ typedef struct {
 	unsigned A :1;
 	unsigned B :1;
 	unsigned C :1;
-	unsigned X :1;
-	unsigned Y :1;
-	unsigned Z :1;
 	unsigned START :1;
-	unsigned MODE :1;
 
+	unsigned TWO_BUTTON :1;
 	unsigned THREE_BUTTON :1;
-	unsigned SIX_BUTTON :1;
 	unsigned A_IS_UP :1;
 } controller_t;
 

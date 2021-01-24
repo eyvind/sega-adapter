@@ -33,12 +33,11 @@ void setup_pins(void) {
 
 controller_t read_controller() {
 	static controller_t controller;
-
-	controller.A = controller.X = controller.Y = controller.Z = 1;
-	controller.START = controller.MODE = 1;
-	controller.THREE_BUTTON = controller.SIX_BUTTON = 0;
-
+	int8_t three_button = controller.THREE_BUTTON;
 	int8_t six_button_next = 0;
+
+	controller.A = controller.START = 1;
+	controller.THREE_BUTTON = 0;
 
 	for (int8_t state = 0; state < 8; state++) {
 		LATB6 = state % 2;
@@ -46,12 +45,12 @@ controller_t read_controller() {
 		switch (state % 2) {
 			case 0:
 				if (!RB0 && !RB1) {
-					controller.SIX_BUTTON = 1;
 					six_button_next = 1;
 					continue;
 				}
 
 				if (!RB2 && !RB3) {
+					controller.TWO_BUTTON = 1;
 					controller.THREE_BUTTON = 1;
 					controller.A = RB7;
 					controller.START = RB5;
@@ -59,10 +58,6 @@ controller_t read_controller() {
 				break;
 			case 1:
 				if (six_button_next) {
-					controller.X = RB2;
-					controller.Y = RB1;
-					controller.Z = RB0;
-					controller.MODE = RB3;
 					six_button_next = 0;
 
 				} else {
@@ -75,6 +70,14 @@ controller_t read_controller() {
 				}
 				break;
 		}
+	}
+
+	if (three_button && !controller.THREE_BUTTON) {
+		controller.TWO_BUTTON = 0;
+	}
+
+	if (!controller.C) {
+		controller.TWO_BUTTON = 1;
 	}
 
 	if (!controller.START) {
@@ -110,24 +113,14 @@ void write_controller(const controller_t controller) {
 	TRISA3 = controller.B && controller.START;
 
 	if (c64) {
-		LATA |= BUTTON_MASK;
 		TRISA4 = controller.C;
 		TRISA2 = button_3;
-	} else {
-		LATA4 = controller.C;
-		LATA2 = button_3;
-		if (controller.THREE_BUTTON) {
-			TRISA &= ~BUTTON_MASK;
 
-		} else {
-			if (!TRISA2) {
-				// three-button controller removed
-				TRISA |= BUTTON_MASK;
-			} else if (TRISA4 && !controller.C) {
-				// Non-Mega Drive two-button controller
-				TRISA4 = 0;
-			}
-		}
+	} else {
+		// In Atari mode, buttons are low both when active and
+		// when not connected.
+		TRISA4 = !(controller.TWO_BUTTON && controller.C);
+		TRISA2 = !(controller.THREE_BUTTON && button_3);
 	}
 }
 
