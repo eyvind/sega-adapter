@@ -100,6 +100,7 @@ void write_controller(const controller_t controller) {
 	int8_t c64 = !RA5;
 	int8_t button_3;
 	TRISAbits_t trisa = TRISAbits;
+	LATAbits_t lata = LATAbits;
 
 	if (controller.A_IS_UP) {
 		trisa.TRISA1 = controller.UP && controller.A;
@@ -114,16 +115,27 @@ void write_controller(const controller_t controller) {
 	trisa.TRISA3 = controller.B && controller.START;
 
 	if (c64) {
+		// Buttons are active high.  The Commodores (except the
+		// Amiga) don't appreciate having them pulled low, so
+		// we toggle the tristate between input and high output.
+
+		lata.LATA4 = lata.LATA2 = 1;
 		trisa.TRISA4 = controller.C;
 		trisa.TRISA2 = button_3;
 
 	} else {
-		// In Atari mode, buttons are low both when active and
-		// when not connected.
-		trisa.TRISA4 = !(controller.TWO_BUTTON && controller.C);
-		trisa.TRISA2 = !(controller.THREE_BUTTON && button_3);
+		// Buttons are active low.  Toggling the tristate
+		// between input and output works on an Atari, but the
+		// Amiga expects buttons to be pulled low.
+
+		lata.LATA4 = controller.C;
+		trisa.TRISA4 = !controller.TWO_BUTTON;
+
+		lata.LATA2 = button_3;
+		trisa.TRISA2 = !controller.THREE_BUTTON;
 	}
 
+	LATAbits = lata;
 	TRISAbits = trisa;
 }
 
