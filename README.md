@@ -17,12 +17,12 @@ identical pinout for their controllers, and their manufacturers stuck
 with the standard through later generations, tempting people to swap
 controllers and joysticks between the systems.
 
-...and most of the time, this more or less worked.  Buttons were not
-always completely compatible, but most Atari and Commodore games only
-supported one button so it didn't really matter as long as one button
-worked.  One important caveat: Sega decided to put power on pin 5
-instead of pin 7, so mixing and matching had the potential to cause
-damage to both machines and controllers.
+Most of the time, this more or less worked.  Buttons were not always
+completely compatible, but most Atari and Commodore games only supported
+one button so it didn't really matter as long as one button worked.  One
+important caveat: Sega chose to put power on pin 5 instead of pin 7, so
+mixing and matching had the potential to cause damage to both machines
+and controllers.
 
 Initially each signal was carried by an individual pin: four pins for
 directions, one for the button, two pins reserved for power and ground,
@@ -45,8 +45,8 @@ and -- crucially -- included patched versions of existing games that
 supported the extra buttons.  This was the
 [Joy2B+](https://github.com/ascrnet/Joy2Bplus) project.
 
-Suddenly, there was a reason to connect a controller with more than one
-joystick button on the Atari.
+Suddenly, there was a reason to connect a joystick with more than one
+button to an Atari.
 
 ### 8BitDo Retro Receiver for SEGA
 
@@ -65,8 +65,8 @@ Atari.
 
 The B button on the controller is mapped to the normal joystick button.
 Buttons A and C are connected to pins 5 and 9 on the joystick port;
-these can be read as second and third joystick buttons by the computer.
-Most games that only support two buttons use the C button (pin 9).
+these can be read as extra joystick buttons by the computer.  Most games
+that only support one extra button use the C button (pin 9).
 
 ### "A is Up" toggle
 

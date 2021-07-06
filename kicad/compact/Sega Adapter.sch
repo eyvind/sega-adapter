@@ -1,0 +1,282 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Sega Adapter"
+Date "2021-07-06"
+Rev "3"
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MCU_Microchip_PIC16:PIC16F627-xxIP U1
+U 1 1 601EB7C3
+P 7150 3950
+F 0 "U1" H 7150 4831 50  0000 C CNN
+F 1 "PIC16F1847" H 7150 4740 50  0000 C CNN
+F 2 "Package_DIP:DIP-18_W7.62mm" H 7150 3950 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/40300c.pdf" H 7150 3950 50  0001 C CNN
+	1    7150 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:DB9_Male_MountingHoles J1
+U 1 1 601EDA30
+P 4550 3900
+F 0 "J1" H 4729 3809 50  0000 L CNN
+F 1 "Controller" H 4729 3900 50  0000 L CNN
+F 2 "Connector_Dsub:DSUB-9_Male_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm" H 4550 3900 50  0001 C CNN
+F 3 " ~" H 4550 3900 50  0001 C CNN
+	1    4550 3900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:C C1
+U 1 1 601532C7
+P 5650 4650
+F 0 "C1" V 5902 4650 50  0000 C CNN
+F 1 "0.1uF" V 5811 4650 50  0000 C CNN
+F 2 "Capacitor_THT:C_Axial_L3.8mm_D2.6mm_P7.50mm_Horizontal" H 5688 4500 50  0001 C CNN
+F 3 "~" H 5650 4650 50  0001 C CNN
+	1    5650 4650
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	8250 3650 8650 3650
+Wire Wire Line
+	8650 3650 8650 3550
+Wire Wire Line
+	8650 3550 9100 3550
+Wire Wire Line
+	8250 3550 8550 3550
+Wire Wire Line
+	8550 3550 8550 3750
+Wire Wire Line
+	8550 3750 9100 3750
+Wire Wire Line
+	8250 4150 9100 4150
+Wire Wire Line
+	8250 3750 8500 3750
+Wire Wire Line
+	8500 3750 8500 4350
+Wire Wire Line
+	8250 3850 8900 3850
+Wire Wire Line
+	8900 3850 8900 3650
+Wire Wire Line
+	8900 3650 9100 3650
+Wire Wire Line
+	8250 4250 8800 4250
+Wire Wire Line
+	8250 3950 8700 3950
+Wire Wire Line
+	8700 3950 8700 4200
+Wire Wire Line
+	8700 4200 9100 4200
+Wire Wire Line
+	9100 4200 9100 4250
+Wire Wire Line
+	9100 3850 9000 3850
+Wire Wire Line
+	9000 3850 9000 3250
+Wire Wire Line
+	9100 4050 9000 4050
+Wire Wire Line
+	8250 4050 8300 4050
+Wire Wire Line
+	4850 3500 6050 3500
+Wire Wire Line
+	6050 3500 6050 3550
+Wire Wire Line
+	4850 3700 6050 3700
+Wire Wire Line
+	6050 3700 6050 3650
+Wire Wire Line
+	4850 3900 5600 3900
+Wire Wire Line
+	5600 3900 5600 3750
+Wire Wire Line
+	5600 3750 6050 3750
+Wire Wire Line
+	4850 4100 5650 4100
+Wire Wire Line
+	5650 4100 5650 3850
+Wire Wire Line
+	5650 3850 6050 3850
+Wire Wire Line
+	4850 4300 5000 4300
+Wire Wire Line
+	5000 4300 5000 3250
+Wire Wire Line
+	5000 3250 7150 3250
+Connection ~ 7150 3250
+Wire Wire Line
+	4850 3600 5100 3600
+Wire Wire Line
+	5100 3600 5100 4250
+Wire Wire Line
+	4850 3800 5400 3800
+Wire Wire Line
+	5400 3800 5400 4150
+Wire Wire Line
+	4850 4000 4950 4000
+Wire Wire Line
+	4950 4000 4950 4650
+Wire Wire Line
+	4850 4200 5250 4200
+Wire Wire Line
+	5250 4200 5250 4050
+Wire Wire Line
+	5250 4050 6050 4050
+$Comp
+L power:+5V #PWR0102
+U 1 1 604F23D4
+P 9000 3250
+F 0 "#PWR0102" H 9000 3100 50  0001 C CNN
+F 1 "+5V" H 9015 3423 50  0000 C CNN
+F 2 "" H 9000 3250 50  0001 C CNN
+F 3 "" H 9000 3250 50  0001 C CNN
+	1    9000 3250
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6050 3950
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 604FC2E9
+P 9000 3850
+F 0 "#FLG0101" H 9000 3925 50  0001 C CNN
+F 1 "PWR_FLAG" H 9000 4023 50  0000 C CNN
+F 2 "" H 9000 3850 50  0001 C CNN
+F 3 "~" H 9000 3850 50  0001 C CNN
+	1    9000 3850
+	1    0    0    -1  
+$EndComp
+Connection ~ 9000 3850
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 604FF2AB
+P 9000 4050
+F 0 "#FLG0102" H 9000 4125 50  0001 C CNN
+F 1 "PWR_FLAG" H 9000 4223 50  0000 C CNN
+F 2 "" H 9000 4050 50  0001 C CNN
+F 3 "~" H 9000 4050 50  0001 C CNN
+	1    9000 4050
+	1    0    0    -1  
+$EndComp
+Connection ~ 9000 3250
+$Comp
+L power:GND #PWR0104
+U 1 1 60508F0B
+P 5500 4650
+F 0 "#PWR0104" H 5500 4400 50  0001 C CNN
+F 1 "GND" H 5505 4477 50  0000 C CNN
+F 2 "" H 5500 4650 50  0001 C CNN
+F 3 "" H 5500 4650 50  0001 C CNN
+	1    5500 4650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7150 3250 9000 3250
+$Comp
+L power:+5V #PWR0106
+U 1 1 6050E5D5
+P 5800 4650
+F 0 "#PWR0106" H 5800 4500 50  0001 C CNN
+F 1 "+5V" H 5815 4823 50  0000 C CNN
+F 2 "" H 5800 4650 50  0001 C CNN
+F 3 "" H 5800 4650 50  0001 C CNN
+	1    5800 4650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0108
+U 1 1 6055E6D2
+P 4550 3300
+F 0 "#PWR0108" H 4550 3050 50  0001 C CNN
+F 1 "GND" H 4555 3127 50  0000 C CNN
+F 2 "" H 4550 3300 50  0001 C CNN
+F 3 "" H 4550 3300 50  0001 C CNN
+	1    4550 3300
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5100 4250 6050 4250
+Wire Wire Line
+	5400 4150 6050 4150
+$Comp
+L power:GND #PWR0103
+U 1 1 6050150B
+P 7150 4650
+F 0 "#PWR0103" H 7150 4400 50  0001 C CNN
+F 1 "GND" H 7155 4477 50  0000 C CNN
+F 2 "" H 7150 4650 50  0001 C CNN
+F 3 "" H 7150 4650 50  0001 C CNN
+	1    7150 4650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0105
+U 1 1 60502096
+P 4950 4650
+F 0 "#PWR0105" H 4950 4400 50  0001 C CNN
+F 1 "GND" H 4955 4477 50  0000 C CNN
+F 2 "" H 4950 4650 50  0001 C CNN
+F 3 "" H 4950 4650 50  0001 C CNN
+	1    4950 4650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Jumper JP1
+U 1 1 60502D56
+P 8600 4650
+F 0 "JP1" H 8600 4914 50  0000 C CNN
+F 1 "C64" H 8600 4823 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 8600 4650 50  0001 C CNN
+F 3 "~" H 8600 4650 50  0001 C CNN
+	1    8600 4650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8500 4350 9100 4350
+Wire Wire Line
+	8300 4050 8300 4650
+Wire Wire Line
+	8800 4250 8800 3950
+$Comp
+L power:GND #PWR0101
+U 1 1 604F18E9
+P 8900 4650
+F 0 "#PWR0101" H 8900 4400 50  0001 C CNN
+F 1 "GND" H 8905 4477 50  0000 C CNN
+F 2 "" H 8900 4650 50  0001 C CNN
+F 3 "" H 8900 4650 50  0001 C CNN
+	1    8900 4650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8900 4050 8900 4650
+Wire Wire Line
+	8800 3950 9100 3950
+Connection ~ 8900 4650
+Wire Wire Line
+	8900 4050 9000 4050
+Connection ~ 9000 4050
+$Comp
+L Connector_Generic_MountingPin:Conn_01x10_MountingPin J2
+U 1 1 60E5DF62
+P 9300 3950
+F 0 "J2" H 9388 3864 50  0000 L CNN
+F 1 "Computer" H 9388 3773 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" H 9300 3950 50  0001 C CNN
+F 3 "~" H 9300 3950 50  0001 C CNN
+	1    9300 3950
+	1    0    0    -1  
+$EndComp
+NoConn ~ 9300 4650
+NoConn ~ 9100 4450
+$EndSCHEMATC
