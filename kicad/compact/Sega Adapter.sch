@@ -5,8 +5,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Sega Adapter"
-Date "2021-03-15"
-Rev "2"
+Date "2021-07-06"
+Rev "3"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -25,22 +25,11 @@ F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/40300c.pdf" H 7150 3950 50 
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:DB9_Female_MountingHoles J2
-U 1 1 601EC4D9
-P 9400 3950
-F 0 "J2" H 9580 3952 50  0000 L CNN
-F 1 "Atari" H 9580 3861 50  0000 L CNN
-F 2 "Connector_Dsub:DSUB-9_Female_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm" H 9400 3950 50  0001 C CNN
-F 3 " ~" H 9400 3950 50  0001 C CNN
-	1    9400 3950
-	1    0    0    -1  
-$EndComp
-$Comp
 L Connector:DB9_Male_MountingHoles J1
 U 1 1 601EDA30
 P 4550 3900
 F 0 "J1" H 4729 3809 50  0000 L CNN
-F 1 "Sega" H 4729 3900 50  0000 L CNN
+F 1 "Controller" H 4729 3900 50  0000 L CNN
 F 2 "Connector_Dsub:DSUB-9_Male_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm" H 4550 3900 50  0001 C CNN
 F 3 " ~" H 4550 3900 50  0001 C CNN
 	1    4550 3900
@@ -205,17 +194,6 @@ F 3 "" H 5800 4650 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR0107
-U 1 1 6055DE77
-P 9400 4550
-F 0 "#PWR0107" H 9400 4300 50  0001 C CNN
-F 1 "GND" H 9405 4377 50  0000 C CNN
-F 2 "" H 9400 4550 50  0001 C CNN
-F 3 "" H 9400 4550 50  0001 C CNN
-	1    9400 4550
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:GND #PWR0108
 U 1 1 6055E6D2
 P 4550 3300
@@ -288,4 +266,17 @@ Connection ~ 8900 4650
 Wire Wire Line
 	8900 4050 9000 4050
 Connection ~ 9000 4050
+$Comp
+L Connector_Generic_MountingPin:Conn_01x10_MountingPin J2
+U 1 1 60E5DF62
+P 9300 3950
+F 0 "J2" H 9388 3864 50  0000 L CNN
+F 1 "Computer" H 9388 3773 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" H 9300 3950 50  0001 C CNN
+F 3 "~" H 9300 3950 50  0001 C CNN
+	1    9300 3950
+	1    0    0    -1  
+$EndComp
+NoConn ~ 9300 4650
+NoConn ~ 9100 4450
 $EndSCHEMATC
