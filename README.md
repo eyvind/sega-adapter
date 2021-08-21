@@ -3,6 +3,12 @@
 Adapt a Sega Mega Drive controller to the 9-pin Atari joystick standard
 using a Microchip PIC 16F1847 microcontroller.
 
+## TL;DR
+
+The [schematics](kicad) and parts list for the adapter are freely
+available.  You also need some way to program the PIC microcontroller.
+
+
 ## Rationale
 
 First, some history.
