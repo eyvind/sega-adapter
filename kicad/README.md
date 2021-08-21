@@ -2,15 +2,20 @@
 
 KiCAD schematics for the adapter.
 
-The [full adapter](full) has an ICSP header for programming the PIC, a three-pin
-header for the C64/programming mode jumper, and through-hole D-sub connectors.
+The [compact pcb](compact) (suggested) uses a detachable ribbon cable to
+connect to to the computer and features an optional jumper to switch the
+adapter to C64 mode.
 
-The [compact pcb](compact) removes the ICSP header and replaces the
-computer side D-sub connector with an IDC header.  It has a two-pin
-header for the C64 mode jumper.
+The [full adapter](full) has an ICSP header for programming the PIC
+in-circuit, and through-hole D-sub connectors for both the computer and
+controller side of the adapter.  Using an extension cable or soldering a
+joystick cable pigtail directly to the computer side of the adapter is
+recommended; the adapter will not fit directly in most joystick ports.
 
-The [tiny pcb](tiny) has edge connectors for solder cup D-sub connectors
-and uses a simple solder bridge jumper for C64 mode.
+The [tiny pcb](tiny) (untested; not recommended) has edge connectors for
+solder cup D-sub connectors and uses a simple solder bridge jumper to
+convert it to C64 mode.
+
 
 ## Licence
 
