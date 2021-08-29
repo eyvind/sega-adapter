@@ -1,8 +1,6 @@
 #ifndef SEGA_ADAPTER_H
 #define SEGA_ADAPTER_H
 
-#define _XTAL_FREQ 500000 	// 500 kHz
-
 #pragma config FOSC = INTOSC	// Oscillator Selection
 #pragma config WDTE = ON	// Watchdog Timer Enable
 #pragma config PWRTE = OFF	// Power-up Timer Enable
@@ -21,9 +19,17 @@
 
 const uint8_t BUTTON_MASK=0b00010100;
 const uint8_t SELECT_MASK=0b01000000;
+const uint8_t OSCCON_INIT=0b01100000;	// 2 MHz
+#define _XTAL_FREQ 2000000
+
+const uint8_t af_max=25;
+const uint8_t af_release=af_max/2;
 
 typedef struct {
 	uint8_t START_COUNTER;
+	uint8_t X_COUNTER;
+	uint8_t Y_COUNTER;
+	uint8_t Z_COUNTER;
 
 	unsigned UP :1;
 	unsigned DOWN :1;
@@ -33,6 +39,10 @@ typedef struct {
 	unsigned B :1;
 	unsigned C :1;
 	unsigned START :1;
+	unsigned X :1;
+	unsigned Y :1;
+	unsigned Z :1;
+	unsigned MODE :1;
 
 	unsigned TWO_BUTTON :1;
 	unsigned THREE_BUTTON :1;

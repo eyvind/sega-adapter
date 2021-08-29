@@ -4,19 +4,19 @@
 
 
 void setup_pins(void) {
-	// Set system clock to 500 kHz
-	OSCCON = 0b00111000;
+	// Set system clock
+	OSCCON = OSCCON_INIT;
 
 	// Enable weak pull-ups
 	OPTION_REG = 0b01111111;
 
-	// PORTA is connected to the Atari, PORTB to the controller
-	// RA1,0,7,6 are up,down,left,right outputs to the Atari
+	// PORTA is connected to the computer, PORTB to the controller
+	// RA1,0,7,6 are up,down,left,right outputs to the computer
 	// RB0,1,2,3 are up,down,left,right inputs from the controller
 	// RB6 is the select line output to the controller
 	// RB7,5 are button inputs from the controller
-	// RA3 is the trigger button output to the Atari
-	// RA4,2 are button 2,3 outputs to the Atari
+	// RA3 is the trigger button output to the computer
+	// RA4,2 are button 2,3 outputs to the computer
 	// /RA5 selects C64 mode
 	// RB4 is unused
 
@@ -36,19 +36,23 @@ controller_t read_controller() {
 	int8_t three_button = controller.THREE_BUTTON;
 	int8_t six_button_next = 0;
 
-	controller.A = controller.START = 1;
+	controller.A = controller.X = controller.Y = controller.Z = 1;
+	controller.MODE = controller.START = 1;
 	controller.THREE_BUTTON = 0;
 
-	for (int8_t state = 0; state < 8; state++) {
-		LATB6 = state % 2;
+	for (int8_t state = 0; state <= 8; state++) {
+		LATB6 = !(state % 2);
 
-		switch (state % 2) {
+		switch (state) {
 			case 0:
-				if (!RB0 && !RB1) {
-					six_button_next = 1;
-					continue;
-				}
-
+				controller.UP = RB0;
+				controller.DOWN = RB1;
+				controller.LEFT = RB2;
+				controller.RIGHT = RB3;
+				controller.B = RB7;
+				controller.C = RB5;
+				break;
+			case 1:
 				if (!RB2 && !RB3) {
 					controller.TWO_BUTTON = 1;
 					controller.THREE_BUTTON = 1;
@@ -56,18 +60,27 @@ controller_t read_controller() {
 					controller.START = RB5;
 				}
 				break;
-			case 1:
+			case 5:
+				if (!RB0 && !RB1 && !RB2 && !RB3) {
+					six_button_next = 1;
+				}
+				break;
+			case 6:
 				if (six_button_next) {
 					six_button_next = 0;
 
-				} else {
-					controller.UP = RB0;
-					controller.DOWN = RB1;
-					controller.LEFT = RB2;
-					controller.RIGHT = RB3;
-					controller.B = RB7;
-					controller.C = RB5;
+					controller.Z = RB0;
+					controller.Y = RB1;
+					controller.X = RB2;
+					controller.MODE = RB3;
 				}
+				break;
+			case 8:
+				// Select is high and we're done
+				break;
+			default:
+				// Give the controller time to notice
+				__delay_us(4);
 				break;
 		}
 	}
@@ -93,34 +106,59 @@ controller_t read_controller() {
 		controller.START_COUNTER = 0;
 	}
 
+	if (++controller.X_COUNTER > af_max || controller.X) {
+		controller.X_COUNTER = 0;
+	}
+	if (++controller.Y_COUNTER > af_max || controller.Y) {
+		controller.Y_COUNTER = 0;
+	}
+	if (++controller.Z_COUNTER > af_max || controller.Z) {
+		controller.Z_COUNTER = 0;
+	}
+
 	return controller;
 }
 
 void write_controller(const controller_t controller) {
 	int8_t c64 = !RA5;
-	int8_t button_3;
+	int8_t up, button_1, button_2, button_3;
 	TRISAbits_t trisa = TRISAbits;
 	LATAbits_t lata = LATAbits;
 
+	button_1 = controller.B && controller.START;
+	if (!controller.Y) {
+		button_1 &= (controller.Y_COUNTER >= af_release);
+	}
+
+	button_2 = controller.C;
+	if (!controller.Z) {
+		button_2 &= (controller.Z_COUNTER >= af_release);
+	}
+
+	up = controller.UP;
 	if (controller.A_IS_UP) {
-		trisa.TRISA1 = controller.UP && controller.A;
+		up &= controller.A;
 		button_3 = 1;
 	} else {
-		trisa.TRISA1 = controller.UP;
 		button_3 = controller.A;
 	}
+	if (!controller.X) {
+		button_3 &= (controller.X_COUNTER >= af_release);
+	}
+
+	trisa.TRISA1 = up;
 	trisa.TRISA0 = controller.DOWN;
 	trisa.TRISA7 = controller.LEFT;
 	trisa.TRISA6 = controller.RIGHT;
-	trisa.TRISA3 = controller.B && controller.START;
+	trisa.TRISA3 = button_1;
 
 	if (c64) {
-		// Buttons are active high.  The Commodores (except the
-		// Amiga) don't appreciate having them pulled low, so
-		// we toggle the tristate between input and high output.
+		// Buttons are active high.  The 8-bit Commodores don't
+		// appreciate having them pulled low, so we toggle the
+		// tristate between input and high output.
 
 		lata.LATA4 = lata.LATA2 = 1;
-		trisa.TRISA4 = controller.C;
+		trisa.TRISA4 = button_2;
 		trisa.TRISA2 = button_3;
 
 	} else {
@@ -128,7 +166,7 @@ void write_controller(const controller_t controller) {
 		// between input and output works on an Atari, but the
 		// Amiga expects buttons to be pulled low.
 
-		lata.LATA4 = controller.C;
+		lata.LATA4 = button_2;
 		trisa.TRISA4 = !controller.TWO_BUTTON;
 
 		lata.LATA2 = button_3;
