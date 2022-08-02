@@ -120,13 +120,7 @@ button will appear to be continually held down.
 The adapter has mostly been tested on 8-bit Ataris using
 [Joy2B+](https://github.com/ascrnet/Joy2Bplus) enhanced games.
 
-### Atari ST (untested)
-
-Button two registers as the second mouse button / port 1 joystick button
-if the adapter is plugged into port 0.  The ST does not support
-additional joystick buttons on port 1.
-
-### 8-bit Commodore computers (untested)
+### 8-bit Commodore computers
 
 The C64, C128, and VIC-20 can also read the second and third buttons.
 The extra buttons on these machines are active high, which is opposite
@@ -147,6 +141,12 @@ Unlike the 8-bit Commodores the extra buttons on the Amiga are active
 low, and unlike all the 8-bit computers they are digital inputs instead
 of repurposed paddle circuits.  The Atari mode supports both Atari and
 Amiga by driving the pins for buttons two and three both high and low.
+
+### Atari ST (untested)
+
+Button two registers as the second mouse button / port 1 joystick button
+if the adapter is plugged into port 0.  The ST does not support
+additional joystick buttons on port 1.
 
 
 ## Controller compatibility
@@ -183,9 +183,13 @@ adapter.
 
 These devices will not work and should not be plugged in to the adapter.
 
+
 ## Build
 
-`xc8 --chip=16f1847 sega-adapter.c`
+Building this project requires the [xc8
+compiler](https://www.microchipdeveloper.com/xc8:installation) from
+Microchip.  Use the command `xc8 --chip=16f1847 sega-adapter.c` to
+create a .hex file suitable for a PIC programmer (see next section).
 
 
 ## Program
