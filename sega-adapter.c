@@ -40,9 +40,7 @@ controller_t read_controller() {
 	controller.MODE = controller.START = 1;
 	controller.THREE_BUTTON = 0;
 
-	for (int8_t state = 0; state <= 8; state++) {
-		LATB6 = !(state % 2);
-
+	for (int8_t state = 0; state < 8; state++) {
 		switch (state) {
 			case 0:
 				controller.UP = RB0;
@@ -75,14 +73,8 @@ controller_t read_controller() {
 					controller.MODE = RB3;
 				}
 				break;
-			case 8:
-				// Select is high and we're done
-				break;
-			default:
-				// Give the controller time to notice
-				__delay_us(4);
-				break;
 		}
+		LATB6 = state % 2;
 	}
 
 	if (three_button && !controller.THREE_BUTTON) {
@@ -94,9 +86,9 @@ controller_t read_controller() {
 	}
 
 	if (!controller.START) {
-		if (controller.START_COUNTER < 128) {
+		if (controller.START_COUNTER < 200) {
 			++controller.START_COUNTER;
-		} else if (controller.START_COUNTER == 128) {
+		} else if (controller.START_COUNTER == 200) {
 			controller.A_IS_UP = !controller.A_IS_UP;
 			++controller.START_COUNTER;
 		} else {

@@ -19,8 +19,8 @@
 
 const uint8_t BUTTON_MASK=0b00010100;
 const uint8_t SELECT_MASK=0b01000000;
-const uint8_t OSCCON_INIT=0b01100000;	// 2 MHz
-#define _XTAL_FREQ 2000000
+const uint8_t OSCCON_INIT=0b11110000;	// 32 MHz
+#define _XTAL_FREQ 32000000
 
 const uint8_t af_max=25;
 const uint8_t af_release=af_max/2;
