@@ -4,8 +4,7 @@
 
 
 void setup_pins(void) {
-	// Set system clock
-	OSCCON = OSCCON_INIT;
+	OSCCON = OSCCON_16MHZ;
 
 	// Enable weak pull-ups
 	OPTION_REG = 0b01111111;
@@ -176,7 +175,10 @@ int main(void) {
 	while (1) {
 		controller = read_controller();
 		write_controller(controller);
+		// Clock down to save power while idle
+		OSCCON = OSCCON_31KHZ;
 		__delay_ms(2);
+		OSCCON = OSCCON_16MHZ;
 		CLRWDT();
 	}
 
