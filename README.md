@@ -5,8 +5,9 @@ using a Microchip PIC 16F1847 microcontroller.
 
 ## TL;DR
 
-The [schematics](kicad) and parts list for the adapter are freely
-available.  You also need some way to program the PIC microcontroller.
+The schematics and parts list for the adapter are in the [kicad
+directory](kicad).  You also need a way to [program the
+microcontroller](#program).
 
 
 ## Rationale
@@ -56,9 +57,9 @@ button to an Atari.
 
 ### 8BitDo Retro Receiver for SEGA
 
-Finally, in February 2019, a Hong Kong-based company called 8BitDo
-released a device that allowed Bluetooth game controllers to be used
-with Sega consoles, the [8BitDo Retro Receiver for
+Finally, a month later, a Hong Kong-based company called 8BitDo released
+a device that allowed Bluetooth game controllers to be used with Sega
+consoles, the [8BitDo Retro Receiver for
 SEGA](https://www.8bitdo.com/retro-receiver-genesis-mega-drive/)...
 tantalisingly close to being compatible with Atari joystick ports.
 
@@ -152,9 +153,10 @@ additional joystick buttons on port 1.
 ## Controller compatibility
 ### Sega controllers
 
-The adapter is compatible with six-button Mega Drive controllers.
-Buttons X, Y, and Z act as autofire versions of A, B, and C, while the
-Mode button is not used for anything.
+The adapter is compatible with three- and six-button Mega Drive
+controllers. On six-button controllers, buttons X, Y, and Z act as
+autofire versions of A, B, and C, while the Mode button is not used for
+anything.
 
 Sega Master System controllers are also theoretically supported,
 including the second button.
