@@ -23,7 +23,7 @@ const uint8_t OSCCON_16MHZ=0b01111000;
 const uint8_t OSCCON_31KHZ=0b00000000;
 #define _XTAL_FREQ 31000	// We only use delay() at low clock speed
 
-const uint8_t af_max=25;
+const uint8_t af_max=20;
 const uint8_t af_release=af_max/2;
 
 typedef struct {
