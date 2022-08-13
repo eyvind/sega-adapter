@@ -152,10 +152,9 @@ additional joystick buttons on port 1.
 ## Controller compatibility
 ### Sega controllers
 
-The adapter is theoretically compatible with a six-button Mega Drive
-controller, but this has not been tested.  The extra X, Y, Z, and Mode
-buttons are not mapped to anything even if a six-button controller is
-connected.
+The adapter is compatible with six-button Mega Drive controllers.
+Buttons X, Y, and Z act as autofire versions of A, B, and C, while the
+Mode button is not used for anything.
 
 Sega Master System controllers are also theoretically supported,
 including the second button.
