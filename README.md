@@ -231,3 +231,5 @@ The .hex file can be used with a USB PIC programmer.
 
 Information on reading Sega controllers came from
 https://github.com/jonthysell/SegaController/wiki/How-To-Read-Sega-Controllers
+and
+https://www.raspberryfield.life/2019/03/25/sega-mega-drive-genesis-6-button-xyz-controller/
