@@ -97,6 +97,19 @@ controller_t read_controller() {
 		controller.START_COUNTER = 0;
 	}
 
+	if (!controller.MODE) {
+		if (controller.MODE_COUNTER < 200) {
+			++controller.MODE_COUNTER;
+		} else if (controller.MODE_COUNTER == 200) {
+			controller.SNACK_TIME = !controller.SNACK_TIME;
+			++controller.MODE_COUNTER;
+		} else {
+			controller.MODE = 1;
+		}
+	} else {
+		controller.MODE_COUNTER = 0;
+	}
+
 	if (++controller.X_COUNTER > af_max || controller.X) {
 		controller.X_COUNTER = 0;
 	}
@@ -108,6 +121,57 @@ controller_t read_controller() {
 	}
 
 	return controller;
+}
+
+void write_snack(const controller_t controller) {
+	int8_t a4_idle = 0;
+	int8_t a2_idle = 0;
+	TRISAbits_t trisa = TRISAbits;
+
+	trisa.TRISA7 = 1;
+	if (!controller.START) {
+		trisa.TRISA0 = 1;
+		trisa.TRISA1 = 1;
+	} else if (!controller.MODE) {
+		trisa.TRISA0 = 1;
+		trisa.TRISA1 = 0;
+	} else if (!controller.X) {
+		trisa.TRISA0 = 0;
+		trisa.TRISA1 = 1;
+	} else if (!controller.Y) {
+		trisa.TRISA0 = 0;
+		trisa.TRISA1 = 0;
+	} else {
+		trisa.TRISA7 = 0;
+		trisa.TRISA0 = !controller.A;
+		trisa.TRISA1 = !controller.B;
+	}
+	trisa.TRISA6 = !controller.C;
+	trisa.TRISA3 = !controller.Z;
+
+	trisa.TRISA4 = 0;
+	if (!controller.RIGHT)
+		trisa.TRISA4 = 1;
+	else if (controller.LEFT)
+		a4_idle = 1;
+
+	trisa.TRISA2 = 0;
+	if (!controller.DOWN)
+		trisa.TRISA2 = 1;
+	else if (controller.UP)
+		a2_idle = 1;
+
+	LATA = BUTTON_MASK;
+	TRISAbits = trisa;
+
+	__delay_us(13 * CLOCK_FACTOR);
+
+	if (a4_idle)
+		trisa.TRISA4 = 1;
+	if (a2_idle)
+		trisa.TRISA2 = 1;
+
+	TRISAbits = trisa;
 }
 
 void write_controller(const controller_t controller) {
@@ -168,17 +232,23 @@ void write_controller(const controller_t controller) {
 	TRISAbits = trisa;
 }
 
+#define slow_delay(ms) OSCCON = OSCCON_31KHZ; __delay_ms(ms); OSCCON = OSCCON_16MHZ
+
 int main(void) {
 	static controller_t controller;
 
 	setup_pins();
 	while (1) {
 		controller = read_controller();
-		write_controller(controller);
-		// Clock down to save power while idle
-		OSCCON = OSCCON_31KHZ;
-		__delay_ms(2);
-		OSCCON = OSCCON_16MHZ;
+		if (controller.SNACK_TIME) {
+			write_snack(controller);
+			slow_delay(1);
+			write_snack(controller);
+			slow_delay(1);
+		} else {
+			write_controller(controller);
+			slow_delay(2);
+		}
 		CLRWDT();
 	}
 

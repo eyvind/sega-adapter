@@ -21,13 +21,15 @@ const uint8_t BUTTON_MASK=0b00010100;
 const uint8_t SELECT_MASK=0b01000000;
 const uint8_t OSCCON_16MHZ=0b01111000;
 const uint8_t OSCCON_31KHZ=0b00000000;
-#define _XTAL_FREQ 31000	// We only use delay() at low clock speed
+const unsigned long CLOCK_FACTOR=516;	// 16MHz/31kHz
+#define _XTAL_FREQ 31000	// Use n*CLOCK_FACTOR at 16MHz
 
 const uint8_t af_max=20;
 const uint8_t af_release=af_max/2;
 
 typedef struct {
 	uint8_t START_COUNTER;
+	uint8_t MODE_COUNTER;
 	uint8_t X_COUNTER;
 	uint8_t Y_COUNTER;
 	uint8_t Z_COUNTER;
@@ -48,6 +50,7 @@ typedef struct {
 	unsigned TWO_BUTTON :1;
 	unsigned THREE_BUTTON :1;
 	unsigned A_IS_UP :1;
+	unsigned SNACK_TIME :1;
 } controller_t;
 
 #endif // SEGA_ADAPTER_H
