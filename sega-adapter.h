@@ -29,7 +29,6 @@ const uint8_t af_release=af_max/2;
 
 typedef struct {
 	uint8_t START_COUNTER;
-	uint8_t MODE_COUNTER;
 	uint8_t X_COUNTER;
 	uint8_t Y_COUNTER;
 	uint8_t Z_COUNTER;

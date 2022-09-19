@@ -97,17 +97,11 @@ controller_t read_controller() {
 		controller.START_COUNTER = 0;
 	}
 
-	if (!controller.MODE) {
-		if (controller.MODE_COUNTER < 200) {
-			++controller.MODE_COUNTER;
-		} else if (controller.MODE_COUNTER == 200) {
-			controller.SNACK_TIME = !controller.SNACK_TIME;
-			++controller.MODE_COUNTER;
-		} else {
-			controller.MODE = 1;
-		}
-	} else {
-		controller.MODE_COUNTER = 0;
+	if (!controller.MODE && !controller.START &&
+		!(controller.Z && controller.C)) {
+		controller.SNACK_TIME = controller.Z;
+		controller.MODE = controller.START =
+			controller.Z = controller.C = 1;
 	}
 
 	if (++controller.X_COUNTER > af_max || controller.X) {
