@@ -85,23 +85,25 @@ controller_t read_controller() {
 	}
 
 	if (!controller.START) {
-		if (controller.START_COUNTER < 200) {
-			++controller.START_COUNTER;
-		} else if (controller.START_COUNTER == 200) {
-			controller.A_IS_UP = !controller.A_IS_UP;
-			++controller.START_COUNTER;
-		} else {
-			controller.START = 1;
+		if (!controller.MODE && !(controller.Z && controller.C)) {
+			controller.SNACK_TIME = controller.Z;
+			controller.MODE = controller.START =
+				controller.Z = controller.C = 1;
+			controller.START_COUNTER = 0;
+		}
+
+		if (!controller.SNACK_TIME) {
+			if (controller.START_COUNTER < 200) {
+				++controller.START_COUNTER;
+			} else if (controller.START_COUNTER == 200) {
+				controller.A_IS_UP = !controller.A_IS_UP;
+				++controller.START_COUNTER;
+			} else {
+				controller.START = 1;
+			}
 		}
 	} else {
 		controller.START_COUNTER = 0;
-	}
-
-	if (!controller.MODE && !controller.START &&
-		!(controller.Z && controller.C)) {
-		controller.SNACK_TIME = controller.Z;
-		controller.MODE = controller.START =
-			controller.Z = controller.C = 1;
 	}
 
 	if (++controller.X_COUNTER > af_max || controller.X) {
