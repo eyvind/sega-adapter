@@ -120,8 +120,6 @@ controller_t read_controller() {
 }
 
 void write_snack(const controller_t controller) {
-	int8_t a4_idle = 0;
-	int8_t a2_idle = 0;
 	TRISAbits_t trisa = TRISAbits;
 
 	trisa.TRISA7 = 1;
@@ -144,28 +142,16 @@ void write_snack(const controller_t controller) {
 	}
 	trisa.TRISA6 = !controller.C;
 	trisa.TRISA3 = !controller.Z;
-
-	trisa.TRISA4 = 0;
-	if (!controller.RIGHT)
-		trisa.TRISA4 = 1;
-	else if (controller.LEFT)
-		a4_idle = 1;
-
-	trisa.TRISA2 = 0;
-	if (!controller.DOWN)
-		trisa.TRISA2 = 1;
-	else if (controller.UP)
-		a2_idle = 1;
+	trisa.TRISA4 = !controller.RIGHT;
+	trisa.TRISA2 = !controller.DOWN;
 
 	LATA = BUTTON_MASK;
 	TRISAbits = trisa;
 
-	__delay_us(13 * CLOCK_FACTOR);
-
-	if (a4_idle)
-		trisa.TRISA4 = 1;
-	if (a2_idle)
-		trisa.TRISA2 = 1;
+	__delay_us(8 * CLOCK_FACTOR);
+	// Stop charging the pot capacitors if controls are centered
+	trisa.TRISA4 = controller.LEFT;
+	trisa.TRISA2 = controller.UP;
 
 	TRISAbits = trisa;
 }
@@ -228,8 +214,6 @@ void write_controller(const controller_t controller) {
 	TRISAbits = trisa;
 }
 
-#define slow_delay(ms) OSCCON = OSCCON_31KHZ; __delay_ms(ms); OSCCON = OSCCON_16MHZ
-
 int main(void) {
 	static controller_t controller;
 
@@ -237,13 +221,13 @@ int main(void) {
 	while (1) {
 		controller = read_controller();
 		if (controller.SNACK_TIME) {
-			write_snack(controller);
-			slow_delay(1);
-			write_snack(controller);
-			slow_delay(1);
+			for (uint8_t i = 0; i < 4; ++i) {
+				write_snack(controller);
+				slow_delay(500);
+			}
 		} else {
 			write_controller(controller);
-			slow_delay(2);
+			slow_delay(2000);
 		}
 		CLRWDT();
 	}

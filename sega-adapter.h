@@ -23,6 +23,7 @@ const uint8_t OSCCON_16MHZ=0b01111000;
 const uint8_t OSCCON_31KHZ=0b00000000;
 const unsigned long CLOCK_FACTOR=516;	// 16MHz/31kHz
 #define _XTAL_FREQ 31000	// Use n*CLOCK_FACTOR at 16MHz
+#define slow_delay(us) OSCCON = OSCCON_31KHZ; __delay_us(us); OSCCON = OSCCON_16MHZ
 
 const uint8_t af_max=20;
 const uint8_t af_release=af_max/2;
