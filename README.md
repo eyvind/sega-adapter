@@ -89,6 +89,45 @@ holding the Start button down for a second maps the A button to Up.
 Since the joystick button often starts games, a short press of the Start
 button is mapped to joystick button 1.
 
+### SNACK enhanced mode (experimental)
+
+[SNACK](https://abbuc.de/produkt/snack-adapter/) is an Atari adapter for
+SNES controllers.  It has an enhanced mode that allows all of the
+buttons to be read by the Atari (with some limitations), and that mode
+is supported here.
+
+To switch to enhanced mode, press Mode, Start, and the right shoulder
+button at the same time.  Mode+Start+left shoulder goes back to
+normal mode.
+
+The SNES controller has four main buttons: A, B, X, and Y; left and
+right shoulder buttons; and START and SELECT.
+
+The main buttons have the same labels and approximately the same diamond
+configuration as the A, B, X, and Y buttons on a Mega Drive controller,
+but the AB and XY buttons are swapped.
+
+The Mega Drive controller does not have shoulder buttons, so the Z and C
+buttons are used instead (some third party controllers have shoulder
+buttons that map to those buttons).
+
+Finally, the Mode button stands in for SELECT.
+
+#### Notes
+
+- SNACK mode uses the joystick ports in a completely different way to a
+  normal joystick and will produce unexpected results in software that
+  is not written to detect it.
+- The buttons are not completely independent.  Only one of START, SELECT
+  (Mode), X, and Y can be detected at any time, and any of those buttons
+  will override A and B.  However, A and B are independent of each
+  other, and the shoulder buttons are entirely independent.
+- Centering the joystick relies on fairly precise timing to charge the
+  Atari's pot capacitors to a specific range, so different computers and
+  even cable lengths may make the joystick appear to be intermittently
+  leaning in one direction.
+- This feature is still experimental.
+
 ### Autodetection (Atari 8-bit machines only)
 
 Because of the way the paddle circuits are used to read the second and
@@ -156,7 +195,7 @@ additional joystick buttons on port 1.
 The adapter is compatible with three- and six-button Mega Drive
 controllers. On six-button controllers, buttons X, Y, and Z act as
 autofire versions of A, B, and C, while the Mode button is not used for
-anything.
+anything (but see the SNACK enhanced mode feature above).
 
 Sega Master System controllers are also theoretically supported,
 including the second button.
