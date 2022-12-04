@@ -228,7 +228,7 @@ These devices will not work and should not be plugged in to the adapter.
 
 Building this project requires the [xc8
 compiler](https://www.microchipdeveloper.com/xc8:installation) from
-Microchip.  Use the command `xc8 --chip=16f1847 sega-adapter.c` to
+Microchip.  Use the command `xc8-cc -mcpu=16f1847 sega-adapter.c` to
 create a .hex file suitable for a PIC programmer (see next section).
 
 

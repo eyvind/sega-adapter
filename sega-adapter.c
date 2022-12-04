@@ -23,7 +23,7 @@ void setup_pins(void) {
 	LATB = SELECT_MASK;
 
 	TRISA = 0b11111111;
-	TRISB = ~SELECT_MASK;
+	TRISB = (uint8_t) ~SELECT_MASK;
 
 	ANSELA = 0;
 	// set PORTB4 as analog to save power
@@ -73,7 +73,7 @@ controller_t read_controller() {
 				}
 				break;
 		}
-		LATB6 = state % 2;
+		LATB6 = (state % 2) == 1;
 	}
 
 	if (three_button && !controller.THREE_BUTTON) {
@@ -158,7 +158,7 @@ void write_snack(const controller_t controller) {
 
 void write_controller(const controller_t controller) {
 	int8_t c64 = !RA5;
-	int8_t up, button_1, button_2, button_3;
+	uint8_t up, button_1, button_2, button_3;
 	TRISAbits_t trisa = TRISAbits;
 	LATAbits_t lata = LATAbits;
 
