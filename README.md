@@ -3,6 +3,11 @@
 Adapt a Sega Mega Drive controller to the 9-pin Atari joystick standard
 using a Microchip PIC 16F1847 microcontroller.
 
+![An 8BitDo M30 controller above an uncased circuit board populated with
+an 18-pin chip, a capacitor, a male DE-9 socket, and an IDC-connected
+ribbon cable terminated by a female DE-9 plug. An 8BitDo Retro receiver
+is plugged in to the adapter](img/adapter.jpeg)
+
 ## TL;DR
 
 The schematics and parts list for the adapter are in the [kicad
@@ -108,8 +113,8 @@ configuration as the A, B, X, and Y buttons on a Mega Drive controller,
 but the AB and XY buttons are swapped.
 
 The Mega Drive controller does not have shoulder buttons, so the Z and C
-buttons are used instead (some third party controllers have shoulder
-buttons that map to those buttons).
+buttons are used instead (the 8BitDo Retro Receiver maps Z and C to the
+shoulder buttons on the M30 controller).
 
 Finally, the Mode button stands in for SELECT.
 
@@ -131,7 +136,7 @@ Finally, the Mode button stands in for SELECT.
 ### Autodetection (Atari 8-bit machines only)
 
 Because of the way the paddle circuits are used to read the second and
-third button inputs, 8-Bit Ataris read an unconnected second or third
+third button inputs, 8-bit Ataris read an unconnected second or third
 button input as if the button is being held down.
 
 This allows\* games running on the computer to detect the presence of a
