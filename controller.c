@@ -55,10 +55,11 @@ controller_t read_controller() {
 	}
 
 	if (!controller.START) {
-		if (!controller.MODE && !(controller.Z && controller.C)) {
-			controller.SNACK_TIME = controller.Z;
+		if (!controller.MODE && !(controller.Z && controller.X && controller.C)) {
+			controller.SNACK_TIME = controller.Z;	// inverted
+			controller.SNACK_RETRO = controller.X;	// inverted
 			controller.MODE = controller.START =
-				controller.Z = controller.C = 1;
+				controller.Z = controller.X = controller.C = 1;
 			controller.START_COUNTER = 0;
 		}
 

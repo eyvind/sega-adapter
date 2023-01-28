@@ -30,6 +30,7 @@ typedef struct {
 	unsigned THREE_BUTTON :1;
 	unsigned A_IS_UP :1;
 	unsigned SNACK_TIME :1;
+	unsigned SNACK_RETRO :1;
 } controller_t;
 
 #endif // CONTROLLER_H
