@@ -8,65 +8,14 @@ an 18-pin chip, a capacitor, a male DE-9 socket, and an IDC-connected
 ribbon cable terminated by a female DE-9 plug. An 8BitDo Retro receiver
 is plugged in to the adapter](img/adapter.jpeg)
 
-## TL;DR
+This adapter is compatible with [most
+computers](#computer-compatibility) that use the Atari 9-pin joystick
+connector, supporting most of the features of [Sega Mega Drive
+controllers](#controller-compatibility), which use the same connector
+with a slightly different pinout.  The Mega Drive was known as Genesis
+in the US.
 
-The schematics and parts list for the adapter are in the [kicad
-directory](kicad).  You also need a way to [program the
-microcontroller](#program).
-
-
-## Rationale
-
-First, some history.
-
-- In 1977, Atari released the 2600 game console.
-- In 1981, Commodore released the VIC-20 home computer.
-- In 1984, Sega released the SG-1000 II console with one main
-  improvement from the SG-1000: detachable controllers.
-
-These machines all used the same physical connector with an almost
-identical pinout for their controllers, and their manufacturers stuck
-with the standard through later generations, tempting people to swap
-controllers and joysticks between the systems.
-
-Most of the time, this more or less worked.  Buttons were not always
-completely compatible, but most Atari and Commodore games only supported
-one button so it didn't really matter as long as one button worked.  One
-important caveat: Sega chose to put power on pin 5 instead of pin 7, so
-mixing and matching had the potential to cause damage to both machines
-and controllers.
-
-Initially each signal was carried by an individual pin: four pins for
-directions, one for the button, two pins reserved for power and ground,
-leaving two pins free for other functions.
-
-### Mega Drive (Genesis)
-
-For the Mega Drive, released in 1988, Sega wanted to have more buttons
-(four) than there were available pins on the controller port (three).
-They solved this problem by using one pin (7) as an output from the
-console to the controller, allowing two pins (6 and 9) to multiplex the
-A, B, C, and Start buttons.
-
-### Joy2B+
-
-Fast forward 20 years, to January 2019.  A poster on an [Atari 8-bit
-forum](https://atariage.com/forums/topic/278884-2-button-joystick/?do=findComment&comment=4206381)
-introduced a design for a three-button joystick for the 8-bit Ataris,
-and -- crucially -- included patched versions of existing games that
-supported the extra buttons.  This was the
-[Joy2B+](https://github.com/ascrnet/Joy2Bplus) project.
-
-Suddenly, there was a reason to connect a joystick with more than one
-button to an Atari.
-
-### 8BitDo Retro Receiver for SEGA
-
-Finally, a month later, a Hong Kong-based company called 8BitDo released
-a device that allowed Bluetooth game controllers to be used with Sega
-consoles, the [8BitDo Retro Receiver for
-SEGA](https://www.8bitdo.com/retro-receiver-genesis-mega-drive/)...
-tantalisingly close to being compatible with Atari joystick ports.
+Read all you need to?  [Here's how to build the adapter](#build).
 
 
 ## Features of this adapter
@@ -83,27 +32,36 @@ that only support one extra button use the C button (pin 9).
 ### "A is Up" toggle
 
 The start button has no natural mapping since the Atari can only read
-three buttons, but another poster in the aforementioned AtariAge thread
-suggested mapping a button to Up to use it as a jump button in games
-that use Up to jump.
+three buttons, but a common complaint in platform games on the Atari
+(and later the Amiga) was that they often used joystick Up to jump
+because of the lack of extra joystick buttons.
 
-The Start button is not usually in a good location for a jump button on
-a controller, so the adapter uses it to support this feature indirectly:
-holding the Start button down for a second maps the A button to Up.
+A dedicated Up button would solve this problem, but the Start button is
+not usually in a good location to be used as a jump button.  The adapter
+therefore supports this feature indirectly: holding the Start button
+down for a second maps the A button to Up.
 
 Since the joystick button often starts games, a short press of the Start
-button is mapped to joystick button 1.
+button is mapped to joystick button 1.  This allows Start to both serve
+its normal function (in supported games) and switch the A button between
+modes.
 
-### SNACK enhanced mode (experimental)
+### SNACK enhanced mode
 
 [SNACK](https://abbuc.de/produkt/snack-adapter/) is an Atari adapter for
 SNES controllers.  It has an enhanced mode that allows all of the
-buttons to be read by the Atari (with some limitations), and that mode
-is supported here.
+buttons to be read by the Atari, and this adapter supports that mode if
+you have a six-button controller.
 
-To switch to enhanced mode, press Mode, Start, and the right shoulder
-button at the same time.  Mode+Start+left shoulder goes back to
+To switch to SNACK mode on a Sega controller, press Mode, Start, and C
+(the right shoulder button if you're using an 8BitDo M30 controller) at
+the same time.  Mode+Start+Z (left shoulder on the M30) goes back to
 normal mode.
+
+If you're using an 8BitDo Retro Receiver with an Xbox or PlayStation
+controller, the button layout is different.  Press Mode+Start+X (left
+shoulder) to switch to SNACK mode on these controllers, and Mode+Start+Z
+(right shoulder) to go back to normal mode.
 
 The SNES controller has four main buttons: A, B, X, and Y; left and
 right shoulder buttons; and START and SELECT.
@@ -113,8 +71,8 @@ configuration as the A, B, X, and Y buttons on a Mega Drive controller,
 but the AB and XY buttons are swapped.
 
 The Mega Drive controller does not have shoulder buttons, so the Z and C
-buttons are used instead (the 8BitDo Retro Receiver maps Z and C to the
-shoulder buttons on the M30 controller).
+buttons are used instead.  As noted above, the 8BitDo Retro Receiver
+maps Z and C to the shoulder buttons on the M30 controller.
 
 Finally, the Mode button stands in for SELECT.
 
@@ -173,7 +131,8 @@ to Atari and Sega.
 
 Pulling the /C64 pin (number 4) on the PIC low inverts the outputs for
 the extra buttons, allowing them to be read correctly by the 8-bit
-Commodores.
+Commodores.  The simplest way to do this is to install a jumper in the
+appropriate location on the circuit board.
 
 Because the joystick inputs of the 8-bit Commodores are somewhat
 sensitive, all of the pins are normally open (floating).  The extra
@@ -199,11 +158,11 @@ additional joystick buttons on port 1.
 
 The adapter is compatible with three- and six-button Mega Drive
 controllers. On six-button controllers, buttons X, Y, and Z act as
-autofire versions of A, B, and C, while the Mode button is not used for
-anything (but see the SNACK enhanced mode feature above).
+autofire versions of A, B, and C, while the Mode button is only used for
+[SNACK enhanced mode](#snack-enhanced-mode).
 
-Sega Master System controllers are also theoretically supported,
-including the second button.
+Sega Master System controllers are theoretically supported, including
+the second button, but this is untested.
 
 ### 8BitDo Retro Receiver
 
@@ -231,19 +190,83 @@ These devices will not work and should not be plugged in to the adapter.
 
 ## Build
 
-Building this project requires the [xc8
-compiler](https://www.microchipdeveloper.com/xc8:installation) from
-Microchip.  Run `rake` or `xc8-cc -mcpu=16f1847 -o sega-adapter.hex *.c`
-to create a .hex file suitable for a PIC programmer (see next section).
+The schematics and parts list for the adapter are in the [kicad
+directory](kicad).  If you don't already have a preferred way to
+manufacture a PCB, you can order a set of three of the recommended
+compact variant from [OSH
+Park](https://oshpark.com/shared_projects/Nn84QTsl).  You also need a
+way to [program the microcontroller](#program).
 
 
 ## Program
 
 [JOY-2-PIC](https://ataribits.weebly.com/joy2pic.html) can program a PIC
 using an Atari 8-bit computer's joystick port.  Boot from the .atr image
-attached to each release to start programming.
+attached to each release to start programming.  If you have a USB PIC
+programmer connected to a PC, use the .hex file instead.
 
-The .hex file can be used with a USB PIC programmer.
+
+## Modify
+
+If you want to modify the firmware, you need the [xc8
+compiler](https://www.microchipdeveloper.com/xc8:installation) from
+Microchip to build it.  Run `rake` or `xc8-cc -mcpu=16f1847 -o
+sega-adapter.hex *.c` to create a .hex file suitable for a PIC
+programmer.
+
+
+## Rationale
+
+All right, it's time for some history.
+
+- In 1977, Atari released the 2600 game console.
+- In 1981, Commodore released the VIC-20 home computer.
+- In 1984, Sega released the SG-1000 II console with one main
+  improvement from the SG-1000: detachable controllers.
+
+These machines all used the same physical connector with an almost
+identical pinout for their controllers, and their manufacturers stuck
+with the standard through later generations, tempting people to swap
+controllers and joysticks between the systems.
+
+Most of the time, this more or less worked.  Buttons were not always
+completely compatible, but most Atari and Commodore games only supported
+one button so it didn't really matter as long as one button worked.  One
+important caveat: Sega chose to put power on pin 5 instead of pin 7, so
+mixing and matching had the potential to cause damage to both machines
+and controllers.
+
+Initially each signal was carried by an individual pin: four pins for
+directions, one for the button, two pins reserved for power and ground,
+leaving two pins free for other functions.
+
+### Mega Drive (Genesis)
+
+For the Mega Drive, released in 1988, Sega wanted to have more buttons
+(four) than there were available pins on the controller port (three).
+They solved this problem by using one pin (7) as an output from the
+console to the controller, allowing two pins (6 and 9) to multiplex the
+A, B, C, and Start buttons.
+
+### Joy2B+
+
+Fast forward 20 years, to January 2019.  A poster on an [Atari 8-bit
+forum](https://atariage.com/forums/topic/278884-2-button-joystick/?do=findComment&comment=4206381)
+introduced a design for a three-button joystick for the 8-bit Ataris,
+and -- crucially -- included patched versions of existing games that
+supported the extra buttons.  This was the
+[Joy2B+](https://github.com/ascrnet/Joy2Bplus) project.
+
+Suddenly, there was a reason to connect a joystick with more than one
+button to an Atari.
+
+### 8BitDo Retro Receiver for SEGA
+
+Finally, a month later, a Hong Kong-based company called 8BitDo released
+a device that allowed Bluetooth game controllers to be used with Sega
+consoles, the [8BitDo Retro Receiver for
+SEGA](https://www.8bitdo.com/retro-receiver-genesis-mega-drive/)...
+tantalisingly close to being compatible with Atari joystick ports.
 
 
 ## Pinout
@@ -272,6 +295,9 @@ The .hex file can be used with a USB PIC programmer.
                      |                   |
                      +-------------------+
 ```
+
+
+## Acknowledgements
 
 Information on reading Sega controllers came from
 https://github.com/jonthysell/SegaController/wiki/How-To-Read-Sega-Controllers
