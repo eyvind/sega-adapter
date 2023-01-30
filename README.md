@@ -192,8 +192,7 @@ These devices will not work and should not be plugged in to the adapter.
 
 The schematics and parts list for the adapter are in the [kicad
 directory](kicad).  If you don't already have a preferred way to
-manufacture a PCB, you can order a set of three of the recommended
-compact variant from [OSH
+manufacture a PCB, you can order a set of three from [OSH
 Park](https://oshpark.com/shared_projects/Nn84QTsl).  You also need a
 way to [program the microcontroller](#program).
 
